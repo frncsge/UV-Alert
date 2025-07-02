@@ -2,6 +2,10 @@
   font-family: "Fredoka", sans-serif;
 }
 
+html {
+  z-index: 1;
+}
+
 /* CSS variables for light mode */
 :root {
   --bg-gradient-start: rgba(255, 255, 255, 0.7);
@@ -25,6 +29,7 @@
   --text-uv-extreme: #b567a4;
 
   --search-bar-color: #f1f1f1;
+  --search-bar-dropdown-color: #f1f1f1;
   --search-button-color: #68bfff;
   --search-button-hover-color: #47b2ff;
 
@@ -44,4 +49,6 @@
   --font-xl: 1.5rem;
   --font-2xl: 2rem;
   --font-3xl: 2.5rem;
+
+  /* --search-dropdown-shadow: ; */
 }

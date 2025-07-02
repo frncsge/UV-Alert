@@ -20,17 +20,23 @@
       </section>
 
       <section id="nav-left-section">
-        <form id="search-bar-container" action="/search" method="GET">
+        <div id="search-bar-container" >
          
             <input
               id="search-bar"
               type="text"
               name="location"
-              placeholder="Enter your location here..."
+              placeholder="Enter your city..."
+              required
             />
         
-            <button id="search-button" type="submit">Search</button>
-        </form>
+            <button id="search-button" >Search</button>
+            <div id="search-dropdown">
+              <ul id="search-dropdown-li-container">
+                
+              </ul>
+            </div>
+        </div>
 
       <ul id="nav-menu">
         <li><a href="#">Home</a></li>
