@@ -18,6 +18,32 @@ const open_uv_api_config = {
   },
 };
 
+async function getGeolocation(location) {
+  //this is to get the longitude and latitude of the location using open weather's geocoding api
+  try {
+    const result = await axios.get(
+      `${GEOCODING_API}/direct?q=${location}&limit=${searchLimit}&appid=${GEOCODING_API_KEY}`
+    );
+
+    const searchData = result.data;
+
+    //filter the result to have country PH only
+    const filterSearchData = searchData.filter((data) => {
+      return data.country === "PH";
+    });
+
+    console.log("data:", filterSearchData);
+
+    //send the filtered data back to the browser
+    return filterSearchData;
+  } catch (error) {
+    console.log(
+      "Something went wrong with the API response:",
+      error.response.status
+    );
+  }
+}
+
 async function getElevation(latitude, longitude) {
   try {
     const result = await axios.get(
@@ -68,29 +94,8 @@ app.get("/search/geocoord", async (req, res) => {
 app.get("/search", async (req, res) => {
   const location = req.query.location;
 
-  //this is to get the longitude and latitude of the location using open weather's geocoding api
-  try {
-    const result = await axios.get(
-      `${GEOCODING_API}/direct?q=${location}&limit=${searchLimit}&appid=${GEOCODING_API_KEY}`
-    );
-
-    const searchData = result.data;
-
-    //filter the result to have country PH only
-    const filterSearchData = searchData.filter((data) => {
-      return data.country === "PH";
-    });
-
-    console.log("data:", filterSearchData);
-
-    //send the filtered data back to the browser
-    res.json(filterSearchData);
-  } catch (error) {
-    console.log(
-      "Something went wrong with the API response:",
-      error.response.status
-    );
-  }
+  const geolocation = await getGeolocation(location);
+  res.json(geolocation);
 });
 
 app.listen(port, () => {
