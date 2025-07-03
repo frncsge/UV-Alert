@@ -18,6 +18,9 @@ const open_uv_api_config = {
   },
 };
 
+let UV_data;
+let location;
+
 async function getGeolocation(location) {
   //this is to get the longitude and latitude of the location using open weather's geocoding api
   try {
@@ -80,15 +83,19 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.render("homepage");
+  console.log("location:", location);
+  res.render("homepage", { data: UV_data, location });
 });
 
 app.get("/search/geocoord", async (req, res) => {
-  const { lat, lon } = req.query;
+  const { lat, lon, name, state } = req.query;
   const elevation = await getElevation(lat, lon);
-  const UVData = await getUVindex(lat, lon, elevation);
+  const data = await getUVindex(lat, lon, elevation);
 
-  console.log("UV index:", UVData);
+  console.log("UV index:", data.result);
+  UV_data = data.result;
+  location = `${name}, ${state}`;
+  res.redirect("/");
 });
 
 app.get("/search", async (req, res) => {

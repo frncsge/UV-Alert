@@ -65,7 +65,7 @@ async function runSearch() {
           const li = document.createElement("li");
           const a = document.createElement("a");
 
-          a.href = `/search/geocoord?lat=${d.lat}&lon=${d.lon}`;
+          a.href = `/search/geocoord?lat=${d.lat}&lon=${d.lon}&name=${d.name}&state=${d.state}`;
           a.textContent = `${d.name}, ${d.state}, ${d.country}`;
 
           li.append(a);
