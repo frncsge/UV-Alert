@@ -2,8 +2,15 @@
   font-family: "Fredoka", sans-serif;
 }
 
-html {
-  z-index: 1;
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
 }
 
 /* CSS variables for light mode */
@@ -33,7 +40,7 @@ html {
   --search-button-color: #68bfff;
   --search-button-hover-color: #47b2ff;
 
-  --outline-color: #68bfff;
+  --primary-color: #68bfff;
 
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;

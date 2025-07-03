@@ -15,11 +15,11 @@
   <body>
     <nav>
       <div id="nav-content-wrapper">
-        <section id="nav-right-section">
+        <section id="nav-left-section">
         <h1 id="logo">UV Alert</h1>
       </section>
 
-      <section id="nav-left-section">
+      <section id="nav-right-section">
         <div id="search-bar-container" >
          
             <input
@@ -39,9 +39,18 @@
         </div>
 
       <ul id="nav-menu">
-        <li><a href="#">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="#">About</a></li>
-        <li><a href="#">Settings</a></li>
+      </ul>
+      <div class="menu-container" onclick="openMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+
+      <ul id="side-nav-menu">
+          <li><a href="/">Home</a></li>
+          <li><a href="#">About</a></li>
       </ul>
       </section>
       </div>
