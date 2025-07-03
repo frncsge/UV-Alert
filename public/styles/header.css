@@ -199,6 +199,19 @@ a {
   color: var(--text-nav-hover-menu);
 }
 
+#overlay {
+  display: none;
+  position: fixed;
+  top: 80px;
+  height: 100%;
+  width: 100%;
+  background-color: red;
+}
+
+#overlay.active {
+  display: block;
+}
+
 @media (hover: hover) {
   #search-button:hover {
     background-color: var(--search-button-hover-color);

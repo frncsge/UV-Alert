@@ -8,25 +8,36 @@ const dropDownLiCon = document.getElementById("search-dropdown-li-container");
 const sideNav = document.getElementById("side-nav-menu");
 const menuButton = document.getElementsByClassName("menu-container")[0];
 
+const overlay = document.getElementById("overlay");
+
 if (window.innerWidth > 600) {
   sideNav.classList.remove("show");
   menuButton.children[0].classList.remove("change");
   menuButton.children[1].classList.remove("change");
   menuButton.children[2].classList.remove("change");
+
+  overlay.style.display = "none";
 }
 
 //function for opening the side bar menu for mobile phones
 function openMenu(menu) {
   menu.classList.toggle("change");
   sideNav.classList.toggle("show");
+  overlay.classList.toggle("active");
+}
+
+//handle overlay click
+function removeSideBar() {
+  sideNav.classList.remove("show");
+  //this resets the animation of the menu instead of staying looking like X lol
+  menuButton.classList.remove("change");
+  overlay.classList.remove("active");
 }
 
 //function to check if screen size is more than 600px to remove the side bar and menu icon
 window.addEventListener("resize", () => {
   if (window.innerWidth > 600) {
-    sideNav.classList.remove("show");
-    //this resets the animation of the menu instead of staying looking like X lol
-    menuButton.classList.remove("change");
+    removeSideBar();
   }
 });
 
@@ -91,3 +102,5 @@ searchBar.addEventListener("keydown", (event) => {
     runSearch();
   }
 });
+
+overlay.addEventListener("click", removeSideBar);
