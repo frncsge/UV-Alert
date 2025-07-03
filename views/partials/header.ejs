@@ -3,28 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/header.css">
+
     <title>UV Alert</title>
   </head>
   <body>
     <nav>
-      <h1>UV Alert</h1>
+      <div id="nav-content-wrapper">
+        <section id="nav-left-section">
+        <h1 id="logo">UV Alert</h1>
+      </section>
 
-      <form id="search-bar-container" action="/search" method="GET">
-        <div id="search-bar">
-          <input
-            type="text"
-            name="location"
-            placeholder="Enter your location here..."
-          />
-          <button type="submit">Search</button>
+      <section id="nav-right-section">
+        <div id="search-bar-container" >
+         
+            <input
+              id="search-bar"
+              type="text"
+              name="location"
+              placeholder="Enter your city..."
+              required
+            />
+        
+            <button id="search-button" >Search</button>
+            <div id="search-dropdown">
+              <ul id="search-dropdown-li-container">
+                
+              </ul>
+            </div>
         </div>
-      </form>
 
       <ul id="nav-menu">
-        <li><a href="#">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="#">About</a></li>
-        <li><a href="#">Settings</a></li>
       </ul>
-    </nav>
+      <div class="menu-container" onclick="openMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+
+      <ul id="side-nav-menu">
+          <li><a href="/">Home</a></li>
+          <li><a href="#">About</a></li>
+      </ul>
+      </section>
+      </div>
+    </nav> 
+
+    <div id="overlay"></div>
 
     <main>
