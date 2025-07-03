@@ -5,8 +5,49 @@ const app = express();
 const port = 3000;
 
 const GEOCODING_API = "http://api.openweathermap.org/geo/1.0";
+const OPEN_ELE_API = "https://api.open-elevation.com";
+const OPEN_UV_API = "https://api.openuv.io/api/v1";
+
 const GEOCODING_API_KEY = "1a434e6cbb7cb0ce4aacf6a9f7118489";
+const OPEN_UV_API_KEY = "openuv-3uogvrmcjtqf9e-io";
 const searchLimit = 10;
+
+const open_uv_api_config = {
+  headers: {
+    "x-access-token": OPEN_UV_API_KEY,
+  },
+};
+
+async function getElevation(latitude, longitude) {
+  try {
+    const result = await axios.get(
+      `${OPEN_ELE_API}/api/v1/lookup?locations=${latitude},${longitude}`
+    );
+
+    return result.data.results[0].elevation;
+  } catch (error) {
+    console.error(
+      "Something went wrong with the OPEN ELEVATION API request:",
+      error.response.data
+    );
+  }
+}
+
+async function getUVindex(latitude, longitude, elevation) {
+  try {
+    const result = await axios.get(
+      `${OPEN_UV_API}/uv?lat=${latitude}&lng=${longitude}&alt=${elevation}`,
+      open_uv_api_config
+    );
+
+    return result.data;
+  } catch (error) {
+    console.error(
+      "Something went wrong with the OPEN UV API request:",
+      error.response.data
+    );
+  }
+}
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -16,8 +57,12 @@ app.get("/", (req, res) => {
   res.render("homepage");
 });
 
-app.get("/search/geocoord", (req, res) => {
-  console.log(req.query);
+app.get("/search/geocoord", async (req, res) => {
+  const { lat, lon } = req.query;
+  const elevation = await getElevation(lat, lon);
+  const UVData = await getUVindex(lat, lon, elevation);
+
+  console.log("UV index:", UVData);
 });
 
 app.get("/search", async (req, res) => {
