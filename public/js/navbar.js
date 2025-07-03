@@ -15,8 +15,6 @@ if (window.innerWidth > 600) {
   menuButton.children[0].classList.remove("change");
   menuButton.children[1].classList.remove("change");
   menuButton.children[2].classList.remove("change");
-
-  overlay.style.display = "none";
 }
 
 //function for opening the side bar menu for mobile phones
