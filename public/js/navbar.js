@@ -65,8 +65,10 @@ async function runSearch() {
           const li = document.createElement("li");
           const a = document.createElement("a");
 
-          a.href = `/search/geocoord?lat=${d.lat}&lon=${d.lon}`;
-          a.textContent = `${d.name}, ${d.state}, ${d.country}`;
+          a.href = `/search/geocoord?lat=${d.lat}&lon=${d.lon}&name=${d.name}&state=${d.state}`;
+          a.textContent = `${d.name}, ${d.state ? d.state : "Philippines"}, ${
+            d.country
+          }`;
 
           li.append(a);
           dropDownLiCon.append(li);
@@ -102,3 +104,9 @@ searchBar.addEventListener("keydown", (event) => {
 });
 
 overlay.addEventListener("click", removeSideBar);
+
+searchDropDown.addEventListener("click", (event) => {
+  if (event.target.tagName === "A") {
+    searchDropDown.style.display = "none";
+  }
+});

@@ -1,0 +1,105 @@
+#grid-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#uv-container {
+  grid-area: box1;
+  padding: var(--spacing-sm);
+  background-color: rgba(255, 255, 255, 0.205);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+#uv-container > h2 {
+  color: var(--primary-color);
+  margin: 0;
+}
+
+#location,
+#date-time {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+#index-level {
+  font-size: var(--font-3xl);
+  padding-left: var(--spacing-sm);
+}
+
+#sun-exposure-container {
+  grid-area: box2;
+  padding: var(--spacing-sm);
+  background-color: rgba(255, 255, 255, 0.205);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+#sun-phase-container {
+  grid-area: box3;
+  padding: var(--spacing-sm);
+  background-color: rgba(255, 255, 255, 0.205);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+#grid {
+  width: 100%;
+  max-width: 800px;
+  display: grid;
+  align-items: start;
+  grid-auto-columns: auto;
+  /* grid-auto-rows: auto; */
+  gap: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  grid-template-areas:
+    "box1 box1 box2 box2"
+    "box3 box3 box2 box2";
+}
+
+#grid div {
+  border-radius: 10px;
+  box-shadow: -3px 5px 10px rgba(0, 0, 0, 0.068);
+}
+
+#grid hr {
+  border: 1px solid var(--primary-color);
+}
+
+#sun-exposure-grid,
+#sun-phase-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+#exposure-time-container,
+#skin-type-container,
+#sun-phase,
+#sun-time {
+  text-align: center;
+}
+
+/* #exposure-time-container p,
+#skin-type-container p {
+  margin: 0;
+  padding-bottom: var(--spacing-sm);
+} */
+
+.main-title {
+  margin: 0;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+#burning {
+  color: var(--text-burning);
+}
+
+.title {
+  font-weight: 500;
+}

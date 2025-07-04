@@ -11,13 +11,18 @@ body {
 
 main {
   flex-grow: 1;
+  background-image: linear-gradient(
+    to bottom,
+    var(--bg-gradient-start) var(--bg-gradient-start-pos),
+    var(--bg-gradient-end) var(--bg-gradient-end-pos)
+  );
 }
 
 /* CSS variables for light mode */
 :root {
   --bg-gradient-start: rgba(255, 255, 255, 0.7);
-  --bg-gradient-end: rgba(104, 191, 255, 0.3);
-  --bg-gradient-start-pos: 27%;
+  --bg-gradient-end: rgba(104, 192, 255, 0.699);
+  --bg-gradient-start-pos: 0%;
   --bg-gradient-end-pos: 100%;
 
   --text-nav-menu: #68bfff;
