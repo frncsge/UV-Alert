@@ -21,6 +21,7 @@ const open_uv_api_config = {
 let UV_data;
 let location;
 let message;
+let dateTime;
 
 async function getGeolocation(location) {
   //this is to get the longitude and latitude of the location using open weather's geocoding api
@@ -111,6 +112,20 @@ function spfMessage(level) {
   return message;
 }
 
+function formatTime(utcTime) {
+  const formatOptions = {
+    timeZone: "Asia/Manila",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  };
+
+  return new Date(utcTime).toLocaleString("en-US", formatOptions);
+}
+
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -119,14 +134,21 @@ app.get("/", async (req, res) => {
   if (!UV_data) {
     const defaultUV_data = await defaultCity();
     const defaultMessage = spfMessage(defaultUV_data.result.uv);
+    const defaultTime = formatTime(defaultUV_data.result.uv_time);
 
     res.render("homepage", {
       data: defaultUV_data.result,
       location: "Manila, Philippines",
       message: defaultMessage,
+      time: defaultTime,
     });
   } else {
-    res.render("homepage", { data: UV_data, location, message });
+    res.render("homepage", {
+      data: UV_data,
+      location,
+      message,
+      time: dateTime,
+    });
   }
 });
 
@@ -143,8 +165,9 @@ app.get("/search/geocoord", async (req, res) => {
   const data = await getUVindex(lat, lon, elevation);
 
   UV_data = data.result;
-  location = `${name}, ${state}`;
+  location = `${name}, ${state === "undefined" ? "Philippines" : state}`;
   message = spfMessage(UV_data.uv);
+  dateTime = formatTime(UV_data.uv_time);
 
   res.redirect("/");
 });

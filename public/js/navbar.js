@@ -66,7 +66,9 @@ async function runSearch() {
           const a = document.createElement("a");
 
           a.href = `/search/geocoord?lat=${d.lat}&lon=${d.lon}&name=${d.name}&state=${d.state}`;
-          a.textContent = `${d.name}, ${d.state}, ${d.country}`;
+          a.textContent = `${d.name}, ${d.state ? d.state : "Philippines"}, ${
+            d.country
+          }`;
 
           li.append(a);
           dropDownLiCon.append(li);
