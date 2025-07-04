@@ -113,12 +113,10 @@ app.get("/search/geocoord", async (req, res) => {
   const elevation = await getElevation(lat, lon);
   const data = await getUVindex(lat, lon, elevation);
 
-  console.log("UV index:", data.result.uv);
   UV_data = data.result;
   location = `${name}, ${state}`;
   message = spfMessage(UV_data.uv);
 
-  console.log("message:", message);
   res.redirect("/");
 });
 

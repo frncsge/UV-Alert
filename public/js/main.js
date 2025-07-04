@@ -21,14 +21,4 @@ function changeUVindexColor() {
   }
 }
 
-// function needSpf() {
-//   const level = checkUVindexLevel();
-
-//   if (level < 3) {
-//     spfIndicator.textContent = "✅ You're good to go. No SPF needed for now.";
-//   } else {
-//     spfIndicator.textContent = "👒 It's hot out. Wear your SPF!";
-//   }
-// }
-
 document.addEventListener("DOMContentLoaded", changeUVindexColor);
