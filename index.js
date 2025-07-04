@@ -20,6 +20,7 @@ const open_uv_api_config = {
 
 let UV_data;
 let location;
+let message;
 
 async function getGeolocation(location) {
   //this is to get the longitude and latitude of the location using open weather's geocoding api
@@ -78,13 +79,33 @@ async function getUVindex(latitude, longitude, elevation) {
   }
 }
 
+function spfMessage(level) {
+  let message;
+
+  if (level < 3) {
+    message = "✅ You're good to go. No SPF needed for now.";
+  } else if (level >= 3 && level <= 5) {
+    message = "👒 UV index level is MODERATE. Wear your SPF!";
+  } else if (level >= 6 && level <= 7) {
+    message = "😾 UV index level is HIGH. Wear your SPF!";
+  } else if (level >= 8 && level <= 10) {
+    message = "🔥 UV index level is VERY HIGH. Wear your SPF!";
+  } else if (level >= 11) {
+    message = "😟 UV index level is EXTREME. Wear your SPF!";
+  } else {
+    message = "Something went wrong with the website.";
+  }
+
+  return message;
+}
+
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   console.log("location:", location);
-  res.render("homepage", { data: UV_data, location });
+  res.render("homepage", { data: UV_data, location, message });
 });
 
 app.get("/search/geocoord", async (req, res) => {
@@ -92,9 +113,12 @@ app.get("/search/geocoord", async (req, res) => {
   const elevation = await getElevation(lat, lon);
   const data = await getUVindex(lat, lon, elevation);
 
-  console.log("UV index:", data.result);
+  console.log("UV index:", data.result.uv);
   UV_data = data.result;
   location = `${name}, ${state}`;
+  message = spfMessage(UV_data.uv);
+
+  console.log("message:", message);
   res.redirect("/");
 });
 
