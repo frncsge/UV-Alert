@@ -8,7 +8,7 @@
       <% } else {%>
       <h2>UV Index: <span id="index-level"><%= data.uv %></span></h2>
       <% } %>
-      <p id="spf-indicator"></p>
+      <p id="spf-indicator"><%= message ? message : "msg" %></p>
       <hr />
       <p id="location">📍 <%= location ? location : "loc" %></p>
       <p id="date-time">📅 July 3, 2025 <span id="time">10:30 AM</span></p>
