@@ -104,3 +104,9 @@ searchBar.addEventListener("keydown", (event) => {
 });
 
 overlay.addEventListener("click", removeSideBar);
+
+searchDropDown.addEventListener("click", (event) => {
+  if (event.target.tagName === "A") {
+    searchDropDown.style.display = "none";
+  }
+});

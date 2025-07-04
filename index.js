@@ -9,7 +9,7 @@ const OPEN_ELE_API = "https://api.open-elevation.com";
 const OPEN_UV_API = "https://api.openuv.io/api/v1";
 
 const GEOCODING_API_KEY = "1a434e6cbb7cb0ce4aacf6a9f7118489";
-const OPEN_UV_API_KEY = "openuv-3uogvrmcjtqf9e-io";
+const OPEN_UV_API_KEY = "openuv-1yi1qb5rmcoed0c6-io ";
 const searchLimit = 10;
 
 const open_uv_api_config = {
@@ -22,6 +22,8 @@ let UV_data;
 let location;
 let message;
 let dateTime;
+let burnTime;
+let sunPhaseTime;
 
 async function getGeolocation(location) {
   //this is to get the longitude and latitude of the location using open weather's geocoding api
@@ -37,13 +39,11 @@ async function getGeolocation(location) {
       return data.country === "PH";
     });
 
-    console.log("data:", filterSearchData);
-
     //send the filtered data back to the browser
     return filterSearchData;
   } catch (error) {
     console.log(
-      "Something went wrong with the API response:",
+      "Something went wrong with the GEOCODING API response:",
       error.response.status
     );
   }
@@ -126,6 +126,26 @@ function formatTime(utcTime) {
   return new Date(utcTime).toLocaleString("en-US", formatOptions);
 }
 
+// this function is to get the OPEN UV api's sun time from the sun_info object
+function getSunTime(sunInfo) {
+  const { sunrise, solarNoon, goldenHour, sunset } = sunInfo.sun_times;
+
+  const formatted_sun_times = {
+    fsunrise: formatTime(sunrise),
+    fsolarNoon: formatTime(solarNoon),
+    fgoldenHour: formatTime(goldenHour),
+    fsunset: formatTime(sunset),
+  };
+
+  //this will get the formatted time without the date since it is not needed!
+  Object.keys(formatted_sun_times).forEach((key) => {
+    const [, sun_time] = formatted_sun_times[key].split(" at ");
+    formatted_sun_times[key] = sun_time;
+  });
+
+  return formatted_sun_times;
+}
+
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -135,12 +155,16 @@ app.get("/", async (req, res) => {
     const defaultUV_data = await defaultCity();
     const defaultMessage = spfMessage(defaultUV_data.result.uv);
     const defaultTime = formatTime(defaultUV_data.result.uv_time);
+    const defaultBurnTime = defaultUV_data.result.safe_exposure_time;
+    const defaultSunTime = getSunTime(defaultUV_data.result.sun_info);
 
     res.render("homepage", {
       data: defaultUV_data.result,
       location: "Manila, Philippines",
       message: defaultMessage,
       time: defaultTime,
+      burnTime: defaultBurnTime,
+      sunPhaseTime: defaultSunTime,
     });
   } else {
     res.render("homepage", {
@@ -148,6 +172,8 @@ app.get("/", async (req, res) => {
       location,
       message,
       time: dateTime,
+      burnTime,
+      sunPhaseTime,
     });
   }
 });
@@ -168,6 +194,8 @@ app.get("/search/geocoord", async (req, res) => {
   location = `${name}, ${state === "undefined" ? "Philippines" : state}`;
   message = spfMessage(UV_data.uv);
   dateTime = formatTime(UV_data.uv_time);
+  burnTime = UV_data.safe_exposure_time;
+  sunPhaseTime = getSunTime(UV_data.sun_info);
 
   res.redirect("/");
 });
