@@ -79,6 +79,18 @@ async function getUVindex(latitude, longitude, elevation) {
   }
 }
 
+async function defaultCity() {
+  const manila = {
+    latitude: 14.5948914,
+    longitude: 120.9782618,
+    elevation: 10.0,
+  };
+
+  const { latitude, longitude, elevation } = manila;
+
+  return await getUVindex(latitude, longitude, elevation);
+}
+
 function spfMessage(level) {
   let message;
 
@@ -103,9 +115,26 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  console.log("location:", location);
-  res.render("homepage", { data: UV_data, location, message });
+app.get("/", async (req, res) => {
+  if (!UV_data) {
+    const defaultUV_data = await defaultCity();
+    const defaultMessage = spfMessage(defaultUV_data.result.uv);
+
+    res.render("homepage", {
+      data: defaultUV_data.result,
+      location: "Manila, Philippines",
+      message: defaultMessage,
+    });
+  } else {
+    res.render("homepage", { data: UV_data, location, message });
+  }
+});
+
+app.get("/search", async (req, res) => {
+  const location = req.query.location;
+
+  const geolocation = await getGeolocation(location);
+  res.json(geolocation);
 });
 
 app.get("/search/geocoord", async (req, res) => {
@@ -118,13 +147,6 @@ app.get("/search/geocoord", async (req, res) => {
   message = spfMessage(UV_data.uv);
 
   res.redirect("/");
-});
-
-app.get("/search", async (req, res) => {
-  const location = req.query.location;
-
-  const geolocation = await getGeolocation(location);
-  res.json(geolocation);
 });
 
 app.listen(port, () => {
