@@ -175,14 +175,15 @@
         </section>
         <section id="skin-type-container">
           <p class="title">Safe Exposure Time</p>
-          <% if(!burnTime) { %> <%Object.keys(burnTime).forEach((key) => { %>
+
+          <%Object.keys(burnTime).forEach((key) => { %> <% if(!key) { %>
           <p>
             <%= burnTime[key] >= 60 ? `${(burnTime[key] / 60).toFixed(2)} Hr` :
             `${burnTime[key]} Min` %>
           </p>
-          <% }) %> <% } else {%> <% Object.keys(burnTime).forEach((key) => { %>
+          <% } else { %>
           <p>No burn</p>
-          <% }) %> <% } %>
+          <% } %> <% }) %>
         </section>
       </section>
     </div>
