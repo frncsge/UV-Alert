@@ -172,8 +172,13 @@ nav {
   background-color: white;
 
   width: 250px;
-  height: calc(100vh - 83px);
+  height: calc(100vh - 80px);
   z-index: 998;
+
+  background-color: rgba(255, 255, 255, 0.205);
+  backdrop-filter: blur(5px);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 #side-nav-menu.show {

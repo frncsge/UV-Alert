@@ -47,6 +47,11 @@
   border-left: 1px solid rgba(255, 255, 255, 0.4);
 }
 
+#grid-container {
+  padding-left: var(--spacing-sm);
+  padding-right: var(--spacing-sm);
+}
+
 #grid {
   width: 100%;
   max-width: 800px;
@@ -102,4 +107,13 @@
 
 .title {
   font-weight: 500;
+}
+
+@media (max-width: 728px) {
+  #grid {
+    grid-template-areas:
+      "box1 box1 box1 box1"
+      "box2 box2 box2 box2"
+      "box3 box3 box3 box3";
+  }
 }
