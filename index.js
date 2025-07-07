@@ -178,6 +178,8 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.get("/about", (req, res) => {});
+
 app.get("/search", async (req, res) => {
   const location = req.query.location;
 
