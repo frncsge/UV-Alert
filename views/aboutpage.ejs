@@ -1,0 +1,33 @@
+<%- include('partials/header.ejs') %>
+
+<div
+  id="about-section-wrapper"
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: startl;
+    padding: var(--spacing-sm);
+  "
+>
+  <section id="about-section" style="max-width: 700px; text-align: center">
+    <p>
+      Hello, I made this project to practice and understand how to work with
+      public APIs! This is just a simple web app that lets you know what the
+      current UV index is at your chosen location within the Philippines only.
+    </p>
+    <p><b>APIs used:</b></p>
+    <a
+      href="https://openweathermap.org/api/geocoding-api"
+      style="text-decoration: underline"
+      >Geocoding API</a
+    >
+    <a href="https://open-elevation.com/" style="text-decoration: underline"
+      >Open Elevation API</a
+    >
+    <a href="https://www.openuv.io/dashboard" style="text-decoration: underline"
+      >Open UV API</a
+    >
+  </section>
+</div>
+
+<%- include('partials/footer.ejs') %>

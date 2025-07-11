@@ -178,6 +178,10 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.get("/about", (req, res) => {
+  res.render("aboutpage");
+});
+
 app.get("/search", async (req, res) => {
   const location = req.query.location;
 
@@ -196,6 +200,8 @@ app.get("/search/geocoord", async (req, res) => {
   dateTime = formatTime(UV_data.uv_time);
   burnTime = UV_data.safe_exposure_time;
   sunPhaseTime = getSunTime(UV_data.sun_info);
+
+  console.log("burn time ", burnTime);
 
   res.redirect("/");
 });
