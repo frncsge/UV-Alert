@@ -23,7 +23,7 @@ UV Alert is a web app that lets you know the current UV index at the location yo
 
 ## 📸 Screenshots
 
-<img src="public/screenshots/homepage uv alert mobile.jpg" alt="Home page for mobile devices" width="200"/> <img src="public/screenshots/homepage uv alert.jpg" alt="Landing Page" width="200"/>
+<img src="public/screenshots/homepage uv alert mobile.jpg" alt="Home page for mobile devices" width="200"/> <img src="public/screenshots/homepage uv alert.jpg" alt="Landing Page" width="600"/>
 
 ## 📝 Notice
 
