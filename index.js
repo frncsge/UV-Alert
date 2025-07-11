@@ -201,6 +201,8 @@ app.get("/search/geocoord", async (req, res) => {
   burnTime = UV_data.safe_exposure_time;
   sunPhaseTime = getSunTime(UV_data.sun_info);
 
+  console.log("burn time ", burnTime);
+
   res.redirect("/");
 });
 
