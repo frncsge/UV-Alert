@@ -70,6 +70,8 @@ async function getUVindex(latitude, longitude, elevation) {
       "Something went wrong with the OPEN UV API request:",
       error.response.data
     );
+
+    throw error;
   }
 }
 
@@ -82,7 +84,11 @@ async function defaultCity() {
 
   const { latitude, longitude, elevation } = manila;
 
-  return await getUVindex(latitude, longitude, elevation);
+  try {
+    return await getUVindex(latitude, longitude, elevation);
+  } catch (error) {
+    throw error;
+  }
 }
 
 function spfMessage(level) {
@@ -153,23 +159,32 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", async (req, res) => {
-  const defaultUV_data = await defaultCity();
-  const defaultMessage = spfMessage(defaultUV_data.result.uv);
-  const defaultTime = formatTime(defaultUV_data.result.uv_time);
-  const defaultBurnTime = defaultUV_data.result.safe_exposure_time;
-  const defaultSunTime = getSunTime(defaultUV_data.result.sun_info);
+  try {
+    const defaultUV_data = await defaultCity();
+    const defaultMessage = spfMessage(defaultUV_data.result.uv);
+    const defaultTime = formatTime(defaultUV_data.result.uv_time);
+    const defaultBurnTime = defaultUV_data.result.safe_exposure_time;
+    const defaultSunTime = getSunTime(defaultUV_data.result.sun_info);
 
-  burnTimeNullChecker(defaultBurnTime);
-  console.log("burn time", defaultBurnTime);
+    burnTimeNullChecker(defaultBurnTime);
+    console.log("burn time", defaultBurnTime);
 
-  res.render("homepage", {
-    data: defaultUV_data.result,
-    location: "Manila, Philippines",
-    message: defaultMessage,
-    time: defaultTime,
-    burnTime: defaultBurnTime,
-    sunPhaseTime: defaultSunTime,
-  });
+    res.render("homepage", {
+      data: defaultUV_data.result,
+      location: "Manila, Philippines",
+      message: defaultMessage,
+      time: defaultTime,
+      burnTime: defaultBurnTime,
+      sunPhaseTime: defaultSunTime,
+    });
+  } catch (error) {
+    console.error("Could not fetch UV index right now:", error.response.data);
+    res
+      .status(500)
+      .send(
+        "Sorry, we couldn't get the UV index right now. You can try again tomorrow."
+      );
+  }
 });
 
 app.get("/about", (req, res) => {
@@ -186,25 +201,35 @@ app.get("/search", async (req, res) => {
 app.get("/search/geocoord", async (req, res) => {
   const { lat, lon, name, state } = req.query;
   const elevation = await getElevation(lat, lon);
-  const data = await getUVindex(lat, lon, elevation);
+  try {
+    const data = await getUVindex(lat, lon, elevation);
+    const UV_data = data.result;
+    const location = `${name}, ${
+      state === "undefined" ? "Philippines" : state
+    }`;
+    const message = spfMessage(UV_data.uv);
+    const dateTime = formatTime(UV_data.uv_time);
+    const burnTime = UV_data.safe_exposure_time;
+    const sunPhaseTime = getSunTime(UV_data.sun_info);
 
-  const UV_data = data.result;
-  const location = `${name}, ${state === "undefined" ? "Philippines" : state}`;
-  const message = spfMessage(UV_data.uv);
-  const dateTime = formatTime(UV_data.uv_time);
-  const burnTime = UV_data.safe_exposure_time;
-  const sunPhaseTime = getSunTime(UV_data.sun_info);
+    burnTimeNullChecker(burnTime);
 
-  burnTimeNullChecker(burnTime);
-
-  res.render("homepage", {
-    data: UV_data,
-    location,
-    message,
-    time: dateTime,
-    burnTime,
-    sunPhaseTime,
-  });
+    res.render("homepage", {
+      data: UV_data,
+      location,
+      message,
+      time: dateTime,
+      burnTime,
+      sunPhaseTime,
+    });
+  } catch (error) {
+    console.error("Could not fetch UV index right now:", error.response.data);
+    res
+      .status(500)
+      .send(
+        "Sorry, we couldn't get the UV index right now. You can try again tomorrow."
+      );
+  }
 });
 
 app.listen(port, () => {
