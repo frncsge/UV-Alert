@@ -139,6 +139,15 @@ function getSunTime(sunInfo) {
   return formatted_sun_times;
 }
 
+//this function checks if burn time returns null or not
+function burnTimeNullChecker(burnTime) {
+  Object.keys(burnTime).forEach((time) => {
+    if (burnTime[time] === null) {
+      burnTime[time] = "No burn";
+    }
+  });
+}
+
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -149,6 +158,9 @@ app.get("/", async (req, res) => {
   const defaultTime = formatTime(defaultUV_data.result.uv_time);
   const defaultBurnTime = defaultUV_data.result.safe_exposure_time;
   const defaultSunTime = getSunTime(defaultUV_data.result.sun_info);
+
+  burnTimeNullChecker(defaultBurnTime);
+  console.log("burn time", defaultBurnTime);
 
   res.render("homepage", {
     data: defaultUV_data.result,
@@ -182,6 +194,8 @@ app.get("/search/geocoord", async (req, res) => {
   const dateTime = formatTime(UV_data.uv_time);
   const burnTime = UV_data.safe_exposure_time;
   const sunPhaseTime = getSunTime(UV_data.sun_info);
+
+  burnTimeNullChecker(burnTime);
 
   res.render("homepage", {
     data: UV_data,
