@@ -182,7 +182,7 @@ app.get("/", async (req, res) => {
     res
       .status(500)
       .send(
-        "Sorry, we couldn't get the UV index right now. You can try again tomorrow."
+        "<h1>Sorry, we couldn't get the UV index right now. You can try again tomorrow.</h1>"
       );
   }
 });
