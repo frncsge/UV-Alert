@@ -18,13 +18,6 @@ const open_uv_api_config = {
   },
 };
 
-let UV_data;
-let location;
-let message;
-let dateTime;
-let burnTime;
-let sunPhaseTime;
-
 async function getGeolocation(location) {
   //this is to get the longitude and latitude of the location using open weather's geocoding api
   try {
@@ -151,31 +144,20 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", async (req, res) => {
-  if (!UV_data) {
-    const defaultUV_data = await defaultCity();
-    const defaultMessage = spfMessage(defaultUV_data.result.uv);
-    const defaultTime = formatTime(defaultUV_data.result.uv_time);
-    const defaultBurnTime = defaultUV_data.result.safe_exposure_time;
-    const defaultSunTime = getSunTime(defaultUV_data.result.sun_info);
+  const defaultUV_data = await defaultCity();
+  const defaultMessage = spfMessage(defaultUV_data.result.uv);
+  const defaultTime = formatTime(defaultUV_data.result.uv_time);
+  const defaultBurnTime = defaultUV_data.result.safe_exposure_time;
+  const defaultSunTime = getSunTime(defaultUV_data.result.sun_info);
 
-    res.render("homepage", {
-      data: defaultUV_data.result,
-      location: "Manila, Philippines",
-      message: defaultMessage,
-      time: defaultTime,
-      burnTime: defaultBurnTime,
-      sunPhaseTime: defaultSunTime,
-    });
-  } else {
-    res.render("homepage", {
-      data: UV_data,
-      location,
-      message,
-      time: dateTime,
-      burnTime,
-      sunPhaseTime,
-    });
-  }
+  res.render("homepage", {
+    data: defaultUV_data.result,
+    location: "Manila, Philippines",
+    message: defaultMessage,
+    time: defaultTime,
+    burnTime: defaultBurnTime,
+    sunPhaseTime: defaultSunTime,
+  });
 });
 
 app.get("/about", (req, res) => {
@@ -194,16 +176,21 @@ app.get("/search/geocoord", async (req, res) => {
   const elevation = await getElevation(lat, lon);
   const data = await getUVindex(lat, lon, elevation);
 
-  UV_data = data.result;
-  location = `${name}, ${state === "undefined" ? "Philippines" : state}`;
-  message = spfMessage(UV_data.uv);
-  dateTime = formatTime(UV_data.uv_time);
-  burnTime = UV_data.safe_exposure_time;
-  sunPhaseTime = getSunTime(UV_data.sun_info);
+  const UV_data = data.result;
+  const location = `${name}, ${state === "undefined" ? "Philippines" : state}`;
+  const message = spfMessage(UV_data.uv);
+  const dateTime = formatTime(UV_data.uv_time);
+  const burnTime = UV_data.safe_exposure_time;
+  const sunPhaseTime = getSunTime(UV_data.sun_info);
 
-  console.log("burn time ", burnTime);
-
-  res.redirect("/");
+  res.render("homepage", {
+    data: UV_data,
+    location,
+    message,
+    time: dateTime,
+    burnTime,
+    sunPhaseTime,
+  });
 });
 
 app.listen(port, () => {
