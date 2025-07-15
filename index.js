@@ -150,6 +150,10 @@ function burnTimeNullChecker(burnTime) {
   Object.keys(burnTime).forEach((time) => {
     if (burnTime[time] === null) {
       burnTime[time] = "No burn";
+    } else {
+      burnTime[time] >= 60
+        ? (burnTime[time] = `${(burnTime[time] / 60).toFixed(1)} Hr`)
+        : `${burnTime[time]} Min`;
     }
   });
 }
