@@ -153,7 +153,7 @@ function burnTimeNullChecker(burnTime) {
     } else {
       burnTime[time] >= 60
         ? (burnTime[time] = `${(burnTime[time] / 60).toFixed(1)} Hr`)
-        : `${burnTime[time]} Min`;
+        : (burnTime[time] = `${burnTime[time]} Min`);
     }
   });
 }
