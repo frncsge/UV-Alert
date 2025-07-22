@@ -17,7 +17,7 @@ function changeUVindexColor() {
   } else if (level >= 8 && level < 11) {
     UVindex.style.color = "var(--text-uv-very-high)";
   } else {
-    UVindex.style.color = "black";
+    UVindex.style.color = "var(--text-uv-extreme)";
   }
 }
 
