@@ -105,7 +105,7 @@ function spfMessage(level) {
   } else if (level >= 11) {
     message = "😟 UV index level is EXTREME. Wear your SPF!";
   } else {
-    message = "Something went wrong with the website.";
+    message = "Something went wrong.";
   }
 
   return message;
