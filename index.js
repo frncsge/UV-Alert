@@ -96,11 +96,11 @@ function spfMessage(level) {
 
   if (level < 3) {
     message = "✅ You're good to go. No SPF needed for now.";
-  } else if (level >= 3 && level <= 5) {
+  } else if (level >= 3 && level < 6) {
     message = "👒 UV index level is MODERATE. Wear your SPF!";
-  } else if (level >= 6 && level <= 7) {
+  } else if (level >= 6 && level < 8) {
     message = "😾 UV index level is HIGH. Wear your SPF!";
-  } else if (level >= 8 && level <= 10) {
+  } else if (level >= 8 && level < 11) {
     message = "🔥 UV index level is VERY HIGH. Wear your SPF!";
   } else if (level >= 11) {
     message = "😟 UV index level is EXTREME. Wear your SPF!";
